@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "641031897255",
+    "firebase_url": "https://misteram-b3cef.firebaseio.com",
+    "project_id": "misteram-b3cef",
+    "storage_bucket": "misteram-b3cef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:641031897255:android:41c78c055d1f2c29",
+        "android_client_info": {
+          "package_name": "com.markmahovyk.misteram"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "641031897255-qs8lg58825c5od7st6vvse4t8vtf9e01.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaw9lDWxyY4cLRrlu3A5CoenDR17SMn9A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "641031897255-qs8lg58825c5od7st6vvse4t8vtf9e01.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

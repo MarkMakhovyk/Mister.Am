@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">MisterAm</string>
+    <!-- Strings related to login -->
+    <string name="login">Логин</string>
+    <string name="password">Пароль</string>
+    <string name="authorization">Авторизация</string>
+    <string name="action_sign_in"> Войти</string>
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+
+    <string name="msg_token_fmt">Token</string>
+    <string name="noConnection">Проверьте подключение к Интернету и попробуйте еще раз</string>
+    <string name="wrongDataInput">Неправильный логин или пароль</string>
+    <string name="titleFragmentOrders">Активные заказы</string>
+    <string name="tasks">Заказы</string>
+    <string name="profile">Профиль</string>
+    <string name="exit">Выйти</string>
+    <string name="errorRegisterDevice">Ошибка регистрации устройства</string>
+</resources>
