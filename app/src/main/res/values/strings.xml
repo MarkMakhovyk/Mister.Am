@@ -5,7 +5,10 @@
     <string name="password">Пароль</string>
     <string name="authorization">Авторизация</string>
     <string name="action_sign_in"> Войти</string>
+
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="notifications_admin_channel_name">Global channel</string>
+    <string name="notifications_admin_channel_description">Notifications sent from the app admin</string>
 
     <string name="msg_token_fmt">Token</string>
     <string name="noConnection">Проверьте подключение к Интернету и попробуйте еще раз</string>

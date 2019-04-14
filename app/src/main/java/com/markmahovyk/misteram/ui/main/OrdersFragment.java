@@ -1,6 +1,7 @@
 package com.markmahovyk.misteram.ui.main;
 
-import android.app.ActionBar;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +35,9 @@ import retrofit2.Response;
 
 public class OrdersFragment extends Fragment {
     private static OrdersFragment ordersFragment = null;
+
     private ArrayList<ActiveTasks> tasks = null;
+    private Boolean isVisibleFragment = false;
 
     RecyclerView complexTaskRecyclerView;
     RecyclerView standardTaskRecyclerView;
@@ -47,11 +49,6 @@ public class OrdersFragment extends Fragment {
             ordersFragment = new OrdersFragment();
         }
         return ordersFragment;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -80,6 +77,20 @@ public class OrdersFragment extends Fragment {
     public void onResume() {
         super.onResume();
         setData();
+        isVisibleFragment = true;
+
+        NotificationManager nMgr = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        nMgr.cancel("fcm",0);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        isVisibleFragment = false;
+    }
+
+    public Boolean getVisibleFragment() {
+        return isVisibleFragment;
     }
 
     public void updateData() {
