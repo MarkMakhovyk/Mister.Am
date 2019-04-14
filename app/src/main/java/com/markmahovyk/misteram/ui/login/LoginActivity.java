@@ -13,12 +13,11 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.markmahovyk.misteram.data.MyFirebaseMessagingService;
-import com.markmahovyk.misteram.ui.main.MainActivity;
 import com.markmahovyk.misteram.R;
 import com.markmahovyk.misteram.data.SharePreference;
 import com.markmahovyk.misteram.data.newtwork.App;
 import com.markmahovyk.misteram.model.ResponseSingIn;
+import com.markmahovyk.misteram.ui.main.MainActivity;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -77,9 +76,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
         }
 
         App.getApi()
-                .singIn(SharePreference.getTokenApp(this),"d136@mister.am","123123123")
-//                        usernameEditText.getText().toString(),
-//                        passwordView.getText().toString())
+                .singIn(SharePreference.getTokenApp(this),
+                        usernameEditText.getText().toString(),
+                        passwordView.getText().toString())
                 .enqueue(new Callback<ResponseSingIn>() {
                     @Override
                     public void onResponse(Call<ResponseSingIn> call, Response<ResponseSingIn> response) {
@@ -116,7 +115,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
                         }
                     }
                 });
-
     }
 
     private void inputStage() {
@@ -142,7 +140,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
             loginStage();
         }
         hideKeyBord();
-
     }
 
     private void hideKeyBord(){
@@ -157,8 +154,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
         loginProgressLayout.setVisibility(View.VISIBLE);
         loginProgressBar.setIndeterminate(true);
         attemptLogin();
-
-
     }
 }
 

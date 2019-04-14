@@ -19,24 +19,11 @@
         android:visibility="visible" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/complexTaskRecyclerView"
+        android:id="@+id/activeTaskRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:layout_marginBottom="8dp"
-        android:visibility="gone"
-        tools:visibility="visible"
-        ></android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/standardTaskRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="top"
-        android:layout_weight="1"
-        android:visibility="gone"
-        tools:visibility="visible"
-        ></android.support.v7.widget.RecyclerView>
+
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refreshLayout"

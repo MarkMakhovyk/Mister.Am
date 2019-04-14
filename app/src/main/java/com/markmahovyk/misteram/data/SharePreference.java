@@ -2,7 +2,6 @@ package com.markmahovyk.misteram.data;
 
 import android.content.Context;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 public class SharePreference {
     private static final String APP_TOKEN = "app_token";
