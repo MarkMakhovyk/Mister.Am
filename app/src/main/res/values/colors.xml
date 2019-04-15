@@ -4,4 +4,8 @@
     <color name="colorPrimaryDark">#01b0b3</color>
     <color name="colorAccent">#D81B60</color>
     <color name="activeTask">#ffffd8</color>
+    <color name="greenColorPrice">#00a053</color>
+    <color name="redColorPrice">#d73a3a</color>
+    <color name="colorDefaultSingInButton">#00cf6b</color>
+    <color name="colorLoginSingInButton">#d8dfdc</color>
 </resources>

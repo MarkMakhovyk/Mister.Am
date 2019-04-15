@@ -2,6 +2,7 @@ package com.markmahovyk.misteram.ui.login;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -29,9 +30,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
     private EditText usernameEditText;
     private EditText passwordView;
     private View singInLayout;
-    private View loginProgressLayout;
+    private View arrowLoginImageView;
     private ProgressBar loginProgressBar;
     private TextView errorSingInTv;
+    private View singInButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +49,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
         }
 
         singInLayout = findViewById(R.id.singInLayout);
-
-        loginProgressLayout = findViewById(R.id.loginProgressLayout);
+        arrowLoginImageView = findViewById(R.id.arrowLoginImageView);
 
         loginProgressBar = (ProgressBar) findViewById(R.id.loginProgress);
 
@@ -59,7 +60,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
         passwordView = (EditText) findViewById(R.id.password);
         passwordView.setOnKeyListener(this);
 
-        findViewById(R.id.sign_in_button).setOnClickListener(this);
+        singInButton = findViewById(R.id.sign_in_button);
+        singInButton.setOnClickListener(this);
 
         singInLayout.setOnClickListener(this);
     }
@@ -119,10 +121,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
     }
 
     private void inputStage() {
+        singInButton.setBackgroundResource(R.color.colorDefaultSingInButton);
         loginProgressBar.setIndeterminate(false);
-
-        singInLayout.setVisibility(View.VISIBLE);
-        loginProgressLayout.setVisibility(View.GONE);
+        loginProgressBar.setVisibility(View.GONE);
+        arrowLoginImageView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -139,6 +141,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
     public void onClick(View v) {
         if (v.getId() == R.id.sign_in_button) {
             loginStage();
+            hideKeyBord();
         }
         hideKeyBord();
     }
@@ -151,8 +154,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
     }
 
     private void loginStage() {
-        singInLayout.setVisibility(View.GONE);
-        loginProgressLayout.setVisibility(View.VISIBLE);
+        singInButton.setBackgroundResource(R.color.colorLoginSingInButton);
+        arrowLoginImageView.setVisibility(View.GONE);
+        loginProgressBar.setVisibility(View.VISIBLE);
         loginProgressBar.setIndeterminate(true);
         attemptLogin();
     }

@@ -47,9 +47,9 @@ class OrdersHolder extends RecyclerView.ViewHolder {
         double price = order.getAmount();
         financeTv.setText(String.valueOf(price)+ "грн.");
         if (price > 0) {
-            financeTv.setTextColor(Color.GREEN);
+            financeTv.setTextColor(R.color.greenColorPrice);
         } else if (price < 0) {
-            financeTv.setTextColor(Color.RED);
+            financeTv.setTextColor(R.color.redColorPrice);
         }
 
         orderCodeTv.setText(String.valueOf(order.getNumber().toCharArray(),

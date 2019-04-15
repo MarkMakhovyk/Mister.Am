@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.markmahovyk.misteram.R;
@@ -27,6 +28,7 @@ import retrofit2.Response;
 public class ActiveTaskAdapter extends RecyclerView.Adapter<ActiveTaskAdapter.ActiveTaskHolder> {
     public ArrayList<ActiveTasks> tasks;
     private Context context;
+    private ArrayList<Integer> sendEndPointList = new ArrayList<>();
 
 
     public ActiveTaskAdapter(ArrayList<ActiveTasks> tasks) {
@@ -44,43 +46,67 @@ public class ActiveTaskAdapter extends RecyclerView.Adapter<ActiveTaskAdapter.Ac
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ActiveTaskHolder activeTaskHolder, int i) {
+    public void onBindViewHolder(@NonNull final ActiveTaskHolder activeTaskHolder, final int position) {
 
-        OrdersAdapter ordersAdapter = new OrdersAdapter(tasks.get(i));
+        OrdersAdapter ordersAdapter = new OrdersAdapter(tasks.get(position));
 
         activeTaskHolder.ordersTaskRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         activeTaskHolder.ordersTaskRecyclerView.setAdapter(ordersAdapter);
-        activeTaskHolder.itemView.setTag(String.valueOf(i));
 
-        final Action action = tasks.get(i).getAction();
+        final Action action = tasks.get(position).getAction();
         activeTaskHolder.orderStatusTextView.setText(action.getTitle());
 
         activeTaskHolder.orderStatusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendEnPoint(activeTaskHolder.itemView);
+                if (sendEndPointList.indexOf(position) == -1){
+                    activeTaskHolder.orderStatusButton.setBackgroundResource(R.color.colorLoginSingInButton);
+
+                    activeTaskHolder.arrowLoginImageView.setVisibility(View.GONE);
+                    activeTaskHolder.loginProgressBar.setVisibility(View.VISIBLE);
+                    activeTaskHolder.loginProgressBar.setIndeterminate(true);
+
+                    sendEndPointList.add(position);
+                    
+                    sendEnPoint(activeTaskHolder, position);
+                }
             }
         });
 
     }
 
-    private void sendEnPoint(final View view) {
-        Action action = tasks.get((Integer.parseInt(view.getTag().toString()))).getAction();
+    private void sendEnPoint(final ActiveTaskHolder activeTaskHolder, final int pos) {
+        View view = activeTaskHolder.itemView;
+        final Action action = tasks.get(pos).getAction();
 
         App.getApi().endPoint(SharePreference.getTokenApp(context),
                 SharePreference.getAppAuthToken(context),action.getOrderId().toString(),action.getType())
                 .enqueue(new Callback<ResponseEndPoint>() {
                     @Override
                     public void onResponse(Call<ResponseEndPoint> call, Response<ResponseEndPoint> response) {
+                        defaultStage();
 
-                        OrdersFragment.getInstance().updateItem((Integer.parseInt(view.getTag().toString())));
+                        if (action.getType().equals("finish"))
+                            OrdersFragment.getInstance().updateData();
+                        else
+                            OrdersFragment.getInstance().updateItem(pos);
                     }
 
                     @Override
                     public void onFailure(Call<ResponseEndPoint> call, Throwable t) {
-                        Snackbar.make(view, R.string.noConnection, Snackbar.LENGTH_LONG).show();
+                        defaultStage();
+
+                        Snackbar.make(activeTaskHolder.orderStatusButton, R.string.noConnection, Snackbar.LENGTH_LONG).show();
+                    }
+
+                    private void defaultStage() {
+                        sendEndPointList.remove(sendEndPointList.indexOf(pos));
+                        activeTaskHolder.loginProgressBar.setIndeterminate(false);
+                        activeTaskHolder.loginProgressBar.setVisibility(View.GONE);
+                        activeTaskHolder.arrowLoginImageView.setVisibility(View.VISIBLE);
                     }
                 });
+
     }
 
     @Override
@@ -91,13 +117,17 @@ public class ActiveTaskAdapter extends RecyclerView.Adapter<ActiveTaskAdapter.Ac
     class ActiveTaskHolder extends RecyclerView.ViewHolder {
         private RecyclerView ordersTaskRecyclerView;
         private View orderStatusButton;
+        private View arrowLoginImageView;
         private TextView orderStatusTextView;
+        private ProgressBar loginProgressBar;
 
         public ActiveTaskHolder(@NonNull View itemView) {
             super(itemView);
             orderStatusButton = itemView.findViewById(R.id.orderStatusButton);
+            arrowLoginImageView = itemView.findViewById(R.id.arrowLoginImageView);
             ordersTaskRecyclerView = (RecyclerView) itemView.findViewById(R.id.ordersTaskRecyclerView);
             orderStatusTextView = (TextView) itemView.findViewById(R.id.orderStatusTextView);
+            loginProgressBar = (ProgressBar) itemView.findViewById(R.id.loginProgress);
         }
     }
 }
