@@ -34,6 +34,7 @@ public class OrdersFragment extends Fragment {
 
     private ActiveTaskAdapter activeTaskAdapter;
     private ArrayList<Integer> positionItemNotify = new ArrayList();
+    private ArrayList<Integer> positionItemRemove = new ArrayList();
 
     private RecyclerView activeTaskRecyclerView;
     private ProgressBar loginProgress;
@@ -55,14 +56,11 @@ public class OrdersFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_orders, container, false);
         loginProgress = view.findViewById(R.id.loginProgress);
 
-        updateData();
-
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refreshLayout);
 
         activeTaskRecyclerView = (RecyclerView) view.findViewById(R.id.activeTaskRecyclerView);
         activeTaskRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        activeTaskAdapter = new ActiveTaskAdapter(tasks);
-        activeTaskRecyclerView.setAdapter(activeTaskAdapter);
+        setAdapterList();
 
         return view;
     }
@@ -70,7 +68,10 @@ public class OrdersFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
         setData();
+        updateData();
+
         isVisibleFragment = true;
 
         NotificationManager nMgr = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
@@ -87,7 +88,14 @@ public class OrdersFragment extends Fragment {
         return isVisibleFragment;
     }
 
+
+
     public void updateData() {
+        positionItemNotify.clear();
+        loadData();
+    }
+
+    public void loadData() {
         loginProgress.setIndeterminate(true);
         App.getApi().getActiveTask(SharePreference.getAppAuthToken(getContext()))
                 .enqueue(new Callback<ArrayList<ActiveTasks>>() {
@@ -126,19 +134,35 @@ public class OrdersFragment extends Fragment {
     }
 
     private void setData() {
-        if (tasks.size() == 0)
+        if (tasks.size() == 0) {
+            setAdapterList();
             return;
+        }
 
         activeTaskRecyclerView.setVisibility(View.VISIBLE);
+        if (positionItemNotify.size() > 0) {
+            activeTaskAdapter.setTasks(tasks);
+            int countItem = activeTaskAdapter.getTasks().size();
 
+            for (int i : positionItemNotify) {
+                if (i <= countItem)
+                    activeTaskAdapter.notifyItemChanged(i);
+            }
+
+            positionItemNotify.clear();
+        }
+        else {
+           setAdapterList();
+        }
+    }
+
+    private void setAdapterList() {
         activeTaskAdapter = new ActiveTaskAdapter(tasks);
         activeTaskRecyclerView.setAdapter(activeTaskAdapter);
-
-
     }
 
     public void updateItem(int pos) {
         positionItemNotify.add(pos);
-        updateData();
+        loadData();
     }
 }
