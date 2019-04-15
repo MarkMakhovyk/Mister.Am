@@ -12,9 +12,11 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.markmahovyk.misteram.R;
+import com.markmahovyk.misteram.data.SharePreference;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
@@ -25,6 +27,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e("TAGA", SharePreference.getTokenApp(this));
+        Log.e("TAGA", SharePreference.getAppAuthToken(this));
 
         setContentView(R.layout.activity_main);
 

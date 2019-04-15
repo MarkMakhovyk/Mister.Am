@@ -90,8 +90,7 @@ public class OrdersFragment extends Fragment {
 
     public void updateData() {
         loginProgress.setIndeterminate(true);
-        App.getApi().getActiveTask(SharePreference.getTokenApp(getContext()),
-                SharePreference.getAppAuthToken(getContext()))
+        App.getApi().getActiveTask(SharePreference.getAppAuthToken(getContext()))
                 .enqueue(new Callback<ArrayList<ActiveTasks>>() {
                     @Override
                     public void onResponse(Call<ArrayList<ActiveTasks>> call,

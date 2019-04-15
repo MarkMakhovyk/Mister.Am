@@ -35,7 +35,7 @@ public interface NetworkService {
 
     @GET("/business-app/api/couriers/tasks/active")
     Call<ArrayList<ActiveTasks>> getActiveTask(
-            @Header("App-Token") String appToken,
+
             @Header("App-Auth-Token") String authAppToken);
 
 

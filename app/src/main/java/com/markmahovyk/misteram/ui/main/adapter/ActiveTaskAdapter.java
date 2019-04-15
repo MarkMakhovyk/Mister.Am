@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,7 +68,7 @@ public class ActiveTaskAdapter extends RecyclerView.Adapter<ActiveTaskAdapter.Ac
                     activeTaskHolder.loginProgressBar.setIndeterminate(true);
 
                     sendEndPointList.add(position);
-                    
+
                     sendEnPoint(activeTaskHolder, position);
                 }
             }
@@ -76,7 +77,7 @@ public class ActiveTaskAdapter extends RecyclerView.Adapter<ActiveTaskAdapter.Ac
     }
 
     private void sendEnPoint(final ActiveTaskHolder activeTaskHolder, final int pos) {
-        View view = activeTaskHolder.itemView;
+
         final Action action = tasks.get(pos).getAction();
 
         App.getApi().endPoint(SharePreference.getTokenApp(context),

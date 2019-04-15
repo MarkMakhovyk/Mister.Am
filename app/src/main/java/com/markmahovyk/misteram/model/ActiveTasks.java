@@ -5,14 +5,13 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import okhttp3.Route;
+
 public class ActiveTasks {
 
     @SerializedName("orders")
     @Expose
     private List<Order> orders = null;
-    @SerializedName("route")
-    @Expose
-    private Route route;
     @SerializedName("action")
     @Expose
     private Action action;
@@ -26,14 +25,6 @@ public class ActiveTasks {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
-    }
-
-    public Route getRoute() {
-        return route;
-    }
-
-    public void setRoute(Route route) {
-        this.route = route;
     }
 
     public Action getAction() {
