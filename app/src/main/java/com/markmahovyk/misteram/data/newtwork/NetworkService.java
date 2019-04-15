@@ -1,6 +1,7 @@
 package com.markmahovyk.misteram.data.newtwork;
 
 import com.markmahovyk.misteram.model.ActiveTasks;
+import com.markmahovyk.misteram.model.ResponseEndPoint;
 import com.markmahovyk.misteram.model.ResponseRegister;
 import com.markmahovyk.misteram.model.ResponseSingIn;
 
@@ -10,6 +11,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface NetworkService {
@@ -33,7 +35,15 @@ public interface NetworkService {
 
     @GET("/business-app/api/couriers/tasks/active")
     Call<ArrayList<ActiveTasks>> getActiveTask(
-            @Header("App-Auth-Token") String token);
+            @Header("App-Token") String appToken,
+            @Header("App-Auth-Token") String authAppToken);
 
+
+    @POST("/business-app/api/couriers/order/{orderId}/process-action")
+    Call<ResponseEndPoint> endPoint(
+            @Header("App-Token") String appToken,
+            @Header("App-Auth-Token") String authAppToken,
+            @Path("orderId") String orderId,
+            @Query("status") String type);
 }
 

@@ -57,9 +57,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         //TODO
                     }
                 });
-
-
     }
+
+
 
     private void sendNotification(RemoteMessage remoteMessage) {
         Intent intent = new Intent(this, MainActivity.class);

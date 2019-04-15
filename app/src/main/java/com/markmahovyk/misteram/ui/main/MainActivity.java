@@ -1,6 +1,11 @@
 package com.markmahovyk.misteram.ui.main;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
@@ -10,6 +15,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.markmahovyk.misteram.R;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
     private BottomNavigationView bottomNavigationView;
@@ -25,6 +32,19 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
         bottomNavigationView.setSelectedItemId(R.id.navigation_tasks);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            String packageName = this.getPackageName();
+            PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
+            
+            if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+                Intent intent = new Intent();
+                intent.setAction(android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+                intent.setData(Uri.parse("package:" + packageName));
+                this.startActivity(intent);
+            }
+        }
     }
 
     @Override

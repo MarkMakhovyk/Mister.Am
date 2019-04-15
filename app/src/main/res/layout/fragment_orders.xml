@@ -24,11 +24,11 @@
         android:layout_height="match_parent"/>
 
 
-
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:theme="@style/AppTheme"
         android:visibility="gone">
 
 
@@ -44,10 +44,10 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="80dp"
                 android:layout_marginEnd="16dp"
-                android:text="@string/noConnection"
-                android:textSize="18sp"
-                android:textColor="@color/colorPrimaryDark"
                 android:gravity="center"
+                android:text="@string/noConnection"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

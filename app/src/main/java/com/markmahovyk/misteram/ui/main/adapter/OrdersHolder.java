@@ -22,7 +22,7 @@ class OrdersHolder extends RecyclerView.ViewHolder {
     private TextView financeTv;
     private TextView orderStatusTextView;
     private ImageView typeOrdersImageView;
-    private LinearLayout tagForOrderLayout;
+    public LinearLayout tagForOrderLayout;
 
     public OrdersHolder(@NonNull View itemView) {
         super(itemView);

@@ -30,8 +30,11 @@ import retrofit2.Response;
 public class OrdersFragment extends Fragment {
     private static OrdersFragment ordersFragment = null;
 
-    private ArrayList<ActiveTasks> tasks = null;
+    private ArrayList<ActiveTasks> tasks = new ArrayList<>();
     private Boolean isVisibleFragment = false;
+
+    private ActiveTaskAdapter activeTaskAdapter;
+    private int positionItemNotify = -1;
 
     private RecyclerView activeTaskRecyclerView;
     private ProgressBar loginProgress;
@@ -59,6 +62,8 @@ public class OrdersFragment extends Fragment {
 
         activeTaskRecyclerView = (RecyclerView) view.findViewById(R.id.activeTaskRecyclerView);
         activeTaskRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        activeTaskAdapter = new ActiveTaskAdapter(tasks);
+        activeTaskRecyclerView.setAdapter(activeTaskAdapter);
 
         return view;
     }
@@ -85,7 +90,8 @@ public class OrdersFragment extends Fragment {
 
     public void updateData() {
         loginProgress.setIndeterminate(true);
-        App.getApi().getActiveTask(SharePreference.getAppAuthToken(getContext()))
+        App.getApi().getActiveTask(SharePreference.getTokenApp(getContext()),
+                SharePreference.getAppAuthToken(getContext()))
                 .enqueue(new Callback<ArrayList<ActiveTasks>>() {
                     @Override
                     public void onResponse(Call<ArrayList<ActiveTasks>> call,
@@ -95,7 +101,7 @@ public class OrdersFragment extends Fragment {
 
                         refreshLayout.setRefreshing(false);
                         refreshLayout.setVisibility(View.GONE);
-                        
+
                         tasks = response.body();
                         setData();
                     }
@@ -104,6 +110,8 @@ public class OrdersFragment extends Fragment {
                     public void onFailure(Call<ArrayList<ActiveTasks>> call, Throwable t) {
                         loginProgress.setIndeterminate(false);
                         loginProgress.setVisibility(View.GONE);
+
+                        activeTaskRecyclerView.setVisibility(View.GONE);
 
                         refreshLayout.setVisibility(View.VISIBLE);
                         refreshLayout.setRefreshing(false);
@@ -120,8 +128,22 @@ public class OrdersFragment extends Fragment {
     }
 
     private void setData() {
-        if (tasks == null)
+        if (tasks.size() == 0)
             return;
-        activeTaskRecyclerView.setAdapter(new ActiveTaskAdapter(tasks));
+        activeTaskRecyclerView.setVisibility(View.VISIBLE);
+
+        activeTaskAdapter.tasks = tasks;
+
+        if (positionItemNotify != -1) {
+            activeTaskAdapter.notifyItemChanged(positionItemNotify);
+            positionItemNotify = -1;
+        }
+        else
+            activeTaskAdapter.notifyDataSetChanged();
+    }
+
+    public void updateItem(int pos) {
+        positionItemNotify = pos;
+        updateData();
     }
 }
