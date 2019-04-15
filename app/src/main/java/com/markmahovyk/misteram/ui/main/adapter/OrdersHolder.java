@@ -1,6 +1,5 @@
 package com.markmahovyk.misteram.ui.main.adapter;
 
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -44,6 +43,15 @@ class OrdersHolder extends RecyclerView.ViewHolder {
 
         addressTv.setText(order.getAddress().getDescription());
 
+        setTextPriceAndColor(order);
+
+        orderCodeTv.setText(String.valueOf(order.getNumber().toCharArray(),
+                order.getNumber().length()-4,4));
+
+        setIconPutOrderToBox(order);
+    }
+
+    private void setTextPriceAndColor(Order order) {
         double price = order.getAmount();
         financeTv.setText(String.valueOf(price)+ "грн.");
         if (price > 0) {
@@ -51,10 +59,9 @@ class OrdersHolder extends RecyclerView.ViewHolder {
         } else if (price < 0) {
             financeTv.setTextColor(R.color.redColorPrice);
         }
+    }
 
-        orderCodeTv.setText(String.valueOf(order.getNumber().toCharArray(),
-                order.getNumber().length()-4,4));
-
+    private void setIconPutOrderToBox(Order order) {
         if (order.getType().equals("company")) {
             typeOrdersImageView.setImageResource(R.drawable.arrow_company);
         } else if (order.getType().equals("user")) {

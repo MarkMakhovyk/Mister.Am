@@ -10,9 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.markmahovyk.misteram.ui.login.LoginActivity;
 import com.markmahovyk.misteram.R;
 import com.markmahovyk.misteram.data.SharePreference;
+import com.markmahovyk.misteram.ui.login.LoginActivity;
 
 import java.io.IOException;
 
@@ -22,9 +22,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        if (SharePreference.getUsername(getContext()) != null) {
-            getActivity().setTitle(SharePreference.getUsername(getContext()));
-        }
+        setTitleFragment();
 
         View view = inflater.inflate(R.layout.fragment_account ,container,false);
 
@@ -33,20 +31,32 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
+    private void setTitleFragment() {
+        if (SharePreference.getUsername(getContext()) != null) {
+            getActivity().setTitle(SharePreference.getUsername(getContext()));
+        }
+    }
+
     @Override
     public void onClick(View v) {
+        if (v.getId() == R.id.exitLayout) {
+            logOut();
+        }
+    }
+
+    private void logOut() {
+
         try {
             FirebaseInstanceId.getInstance().deleteInstanceId();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        if (v.getId() == R.id.exitLayout) {
-            SharePreference.setTokenAppAuthToken(getContext(),null);
+        SharePreference.setTokenAppAuthToken(getContext(),null);
 
-            Intent intent = new Intent(getContext(), LoginActivity.class);
-            startActivity(intent);
-            getActivity().finish();
-        }
+        Intent intent = new Intent(getContext(), LoginActivity.class);
+        startActivity(intent);
+        getActivity().finish();
+
     }
 }

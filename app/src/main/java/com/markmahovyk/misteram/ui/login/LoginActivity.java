@@ -2,7 +2,6 @@ package com.markmahovyk.misteram.ui.login;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -39,16 +38,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        if (SharePreference.getAppAuthToken(this) != null) {
 
+        authorizationUser();
 
-            Intent i = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(i);
-
-            LoginActivity.this.finish();
-        }
 
         singInLayout = findViewById(R.id.singInLayout);
+
         arrowLoginImageView = findViewById(R.id.arrowLoginImageView);
 
         loginProgressBar = (ProgressBar) findViewById(R.id.loginProgress);
@@ -66,17 +61,33 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
         singInLayout.setOnClickListener(this);
     }
 
+    private void authorizationUser() {
+        if (SharePreference.getAppAuthToken(this) != null) {
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            LoginActivity.this.finish();
+        }
+    }
+
 
     private void attemptLogin() {
-        if (usernameEditText.getText().length() == 0 || passwordView.getText().length() == 0) {
-
-            errorSingInTv.setText("Поля должны быть не пустыми");
-
-            inputStage();
-
+        if (isEmptyField()) {
             return;
         }
 
+        sendLoggingRequest();
+    }
+
+    private boolean isEmptyField() {
+        if (usernameEditText.getText().length() == 0 || passwordView.getText().length() == 0) {
+            errorSingInTv.setText("Поля должны быть не пустыми");
+            inputStage();
+            return true;
+        }
+        return false;
+    }
+
+    private void sendLoggingRequest() {
         App.getApi()
                 .singIn(SharePreference.getTokenApp(this),
                         usernameEditText.getText().toString(),
@@ -87,14 +98,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
 
                         if (response != null && response.body() != null) {
 
-                            SharePreference.setTokenAppAuthToken(LoginActivity.this,response.body().getAuthToken());
+                            SharePreference.setTokenAppAuthToken(LoginActivity.this, response.body().getAuthToken());
                             SharePreference.setUsername(LoginActivity.this, usernameEditText.getText().toString());
 
-                            Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(i);
-                            LoginActivity.this.finish();
-                        }
-                        else {
+                            authorizationUser();
+                        } else {
                             inputStage();
 
                             errorSingInTv.setText(getString(R.string.wrongDataInput));
@@ -107,9 +115,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
                         inputStage();
 
                         ConnectivityManager connectivityManager =
-                                (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+                                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
-                        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState()
+                        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState()
                                 != NetworkInfo.State.CONNECTED ||
                                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState()
                                         != NetworkInfo.State.CONNECTED) {
@@ -119,6 +127,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
                     }
                 });
     }
+
 
     private void inputStage() {
         singInButton.setBackgroundResource(R.color.colorDefaultSingInButton);

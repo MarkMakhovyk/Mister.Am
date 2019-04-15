@@ -32,11 +32,11 @@ public class OrdersFragment extends Fragment {
     private ArrayList<ActiveTasks> tasks = new ArrayList<>();
     private Boolean isVisibleFragment = false;
 
-    private ActiveTaskAdapter activeTaskAdapter;
     private ArrayList<Integer> positionItemNotify = new ArrayList();
-    private ArrayList<Integer> positionItemRemove = new ArrayList();
 
     private RecyclerView activeTaskRecyclerView;
+    private ActiveTaskAdapter activeTaskAdapter;
+
     private ProgressBar loginProgress;
     private SwipeRefreshLayout refreshLayout;
 
@@ -51,7 +51,7 @@ public class OrdersFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        getActivity().setTitle(R.string.titleFragmentOrders);
+        setTitleFragment();
 
         View view = inflater.inflate(R.layout.fragment_orders, container, false);
         loginProgress = view.findViewById(R.id.loginProgress);
@@ -65,6 +65,10 @@ public class OrdersFragment extends Fragment {
         return view;
     }
 
+    private void setTitleFragment() {
+        getActivity().setTitle(R.string.titleFragmentOrders);
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -74,6 +78,10 @@ public class OrdersFragment extends Fragment {
 
         isVisibleFragment = true;
 
+        removeActiveNotification();
+    }
+
+    private void removeActiveNotification() {
         NotificationManager nMgr = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
         nMgr.cancel("fcm", 0);
     }
@@ -102,35 +110,44 @@ public class OrdersFragment extends Fragment {
                     @Override
                     public void onResponse(Call<ArrayList<ActiveTasks>> call,
                                            Response<ArrayList<ActiveTasks>> response) {
-                        loginProgress.setIndeterminate(false);
-                        loginProgress.setVisibility(View.GONE);
+                        setDefaultStage();
 
-                        refreshLayout.setRefreshing(false);
                         refreshLayout.setVisibility(View.GONE);
-
-                        tasks = response.body();
-                        setData();
+                        if (response != null && response.body() != null) {
+                            tasks = response.body();
+                            setData();
+                        }
                     }
 
                     @Override
                     public void onFailure(Call<ArrayList<ActiveTasks>> call, Throwable t) {
-                        loginProgress.setIndeterminate(false);
-                        loginProgress.setVisibility(View.GONE);
+                        setDefaultStage();
 
                         activeTaskRecyclerView.setVisibility(View.GONE);
 
-                        refreshLayout.setVisibility(View.VISIBLE);
-                        refreshLayout.setRefreshing(false);
-                        refreshLayout.setOnChildScrollUpCallback(new SwipeRefreshLayout.OnChildScrollUpCallback() {
-                            @Override
-                            public boolean canChildScrollUp(@NonNull SwipeRefreshLayout swipeRefreshLayout, @Nullable View view) {
-                                refreshLayout.setRefreshing(true);
-                                updateData();
-                                return false;
-                            }
-                        });
+                        initializeSwipeRefreshLayout();
                     }
                 });
+    }
+
+    private void initializeSwipeRefreshLayout() {
+        refreshLayout.setVisibility(View.VISIBLE);
+
+        refreshLayout.setOnChildScrollUpCallback(new SwipeRefreshLayout.OnChildScrollUpCallback() {
+            @Override
+            public boolean canChildScrollUp(@NonNull SwipeRefreshLayout swipeRefreshLayout, @Nullable View view) {
+                refreshLayout.setRefreshing(true);
+                updateData();
+                return false;
+            }
+        });
+    }
+
+    private void setDefaultStage() {
+        loginProgress.setIndeterminate(false);
+        loginProgress.setVisibility(View.GONE);
+
+        refreshLayout.setRefreshing(false);
     }
 
     private void setData() {
@@ -141,19 +158,23 @@ public class OrdersFragment extends Fragment {
 
         activeTaskRecyclerView.setVisibility(View.VISIBLE);
         if (positionItemNotify.size() > 0) {
-            activeTaskAdapter.setTasks(tasks);
-            int countItem = activeTaskAdapter.getTasks().size();
-
-            for (int i : positionItemNotify) {
-                if (i <= countItem)
-                    activeTaskAdapter.notifyItemChanged(i);
-            }
-
-            positionItemNotify.clear();
+            updateItem();
         }
         else {
-           setAdapterList();
+            setAdapterList();
         }
+    }
+
+    private void updateItem() {
+        activeTaskAdapter.setTasks(tasks);
+        int countItem = activeTaskAdapter.getTasks().size();
+
+        for (int i : positionItemNotify) {
+            if (i <= countItem)
+                activeTaskAdapter.notifyItemChanged(i);
+        }
+
+        positionItemNotify.clear();
     }
 
     private void setAdapterList() {

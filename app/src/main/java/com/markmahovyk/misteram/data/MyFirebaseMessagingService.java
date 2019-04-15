@@ -38,6 +38,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onNewToken(String token) {
         SharePreference.setTokenNotification(this, token);
 
+        registerNewToken();
+    }
+
+    private void registerNewToken() {
         String deviceId = Settings.Secure.getString(this.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
         App.getApi()
@@ -58,7 +62,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     }
                 });
     }
-
 
 
     private void sendNotification(RemoteMessage remoteMessage) {

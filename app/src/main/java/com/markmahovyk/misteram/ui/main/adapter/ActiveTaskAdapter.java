@@ -28,7 +28,7 @@ import retrofit2.Response;
 public class ActiveTaskAdapter extends RecyclerView.Adapter<ActiveTaskAdapter.ActiveTaskHolder> {
     private ArrayList<ActiveTasks> tasks;
     private Context context;
-    private ArrayList<Integer> sendEndPointList = new ArrayList<>();
+    private ArrayList<Integer> sendEndPointListPositions = new ArrayList<>();
 
 
     public ActiveTaskAdapter(ArrayList<ActiveTasks> tasks) {
@@ -48,6 +48,7 @@ public class ActiveTaskAdapter extends RecyclerView.Adapter<ActiveTaskAdapter.Ac
     public ActiveTaskHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         context = viewGroup.getContext();
 
+        //When list task empty add information item about it
         if (tasks.size() == 0) {
             ActiveTaskHolder holder = new ActiveTaskHolder(LayoutInflater.from(context)
                     .inflate(R.layout.item_empty_list, viewGroup, false));
@@ -61,35 +62,51 @@ public class ActiveTaskAdapter extends RecyclerView.Adapter<ActiveTaskAdapter.Ac
 
     @Override
     public void onBindViewHolder(@NonNull final ActiveTaskHolder activeTaskHolder, final int position) {
+        //if the item on the empty list is displayed
         if (tasks.size() == 0) {
             return;
         }
 
         OrdersAdapter ordersAdapter = new OrdersAdapter(tasks.get(position));
 
+        setAdapterOrderList(activeTaskHolder, ordersAdapter);
+
+        setTitleStatusToButtonTask(activeTaskHolder, position);
+
+        setButtonListener(activeTaskHolder, position);
+
+    }
+
+    private void setAdapterOrderList(@NonNull ActiveTaskHolder activeTaskHolder, OrdersAdapter ordersAdapter) {
         activeTaskHolder.ordersTaskRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         activeTaskHolder.ordersTaskRecyclerView.setAdapter(ordersAdapter);
+    }
 
+    private void setTitleStatusToButtonTask(@NonNull ActiveTaskHolder activeTaskHolder, int position) {
         final Action action = tasks.get(position).getAction();
         activeTaskHolder.orderStatusTextView.setText(action.getTitle());
+    }
 
+    private void setButtonListener(@NonNull final ActiveTaskHolder activeTaskHolder, final int position) {
         activeTaskHolder.orderStatusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (sendEndPointList.indexOf(position) == -1){
-                    activeTaskHolder.orderStatusButton.setBackgroundResource(R.color.colorLoginSingInButton);
+                if (sendEndPointListPositions.indexOf(position) == -1){
+                    sendEndPointStage(activeTaskHolder);
 
-                    activeTaskHolder.arrowLoginImageView.setVisibility(View.GONE);
-                    activeTaskHolder.loginProgressBar.setVisibility(View.VISIBLE);
-                    activeTaskHolder.loginProgressBar.setIndeterminate(true);
-
-                    sendEndPointList.add(position);
+                    sendEndPointListPositions.add(position);
 
                     sendEnPoint(activeTaskHolder, position);
                 }
             }
         });
+    }
 
+    private void sendEndPointStage(@NonNull ActiveTaskHolder activeTaskHolder) {
+        activeTaskHolder.orderStatusButton.setBackgroundResource(R.color.colorLoginSingInButton);
+        activeTaskHolder.arrowLoginImageView.setVisibility(View.GONE);
+        activeTaskHolder.loginProgressBar.setVisibility(View.VISIBLE);
+        activeTaskHolder.loginProgressBar.setIndeterminate(true);
     }
 
     private void sendEnPoint(final ActiveTaskHolder activeTaskHolder, final int pos) {
@@ -101,32 +118,37 @@ public class ActiveTaskAdapter extends RecyclerView.Adapter<ActiveTaskAdapter.Ac
                 .enqueue(new Callback<ResponseEndPoint>() {
                     @Override
                     public void onResponse(Call<ResponseEndPoint> call, Response<ResponseEndPoint> response) {
-                        defaultStage();
+                        defaultStage(activeTaskHolder, pos);
 
-                        if (action.getType().equals("finish"))
-                            OrdersFragment.getInstance().updateData();
-                        else
-                            OrdersFragment.getInstance().updateItem(pos);
+                        updateList(action, pos);
                     }
 
                     @Override
                     public void onFailure(Call<ResponseEndPoint> call, Throwable t) {
-                        defaultStage();
+                        defaultStage(activeTaskHolder, pos);
 
                         Snackbar.make(activeTaskHolder.orderStatusButton, R.string.noConnection, Snackbar.LENGTH_LONG).show();
-                    }
-
-                    private void defaultStage() {
-                        sendEndPointList.remove(sendEndPointList.indexOf(pos));
-
-                        activeTaskHolder.orderStatusButton.setBackgroundResource(R.color.colorDefaultSingInButton);
-                        activeTaskHolder.loginProgressBar.setIndeterminate(false);
-                        activeTaskHolder.loginProgressBar.setVisibility(View.GONE);
-                        activeTaskHolder.arrowLoginImageView.setVisibility(View.VISIBLE);
                     }
                 });
 
     }
+
+    private void defaultStage(ActiveTaskHolder activeTaskHolder, int pos) {
+        sendEndPointListPositions.remove(sendEndPointListPositions.indexOf(pos));
+
+        activeTaskHolder.orderStatusButton.setBackgroundResource(R.color.colorDefaultSingInButton);
+        activeTaskHolder.loginProgressBar.setIndeterminate(false);
+        activeTaskHolder.loginProgressBar.setVisibility(View.GONE);
+        activeTaskHolder.arrowLoginImageView.setVisibility(View.VISIBLE);
+    }
+
+    private void updateList(Action action, int pos) {
+        if (action.getType().equals("finish"))
+            OrdersFragment.getInstance().updateData();
+        else
+            OrdersFragment.getInstance().updateItem(pos);
+    }
+
 
     @Override
     public int getItemCount() {
@@ -145,6 +167,8 @@ public class ActiveTaskAdapter extends RecyclerView.Adapter<ActiveTaskAdapter.Ac
 
         public ActiveTaskHolder(@NonNull View itemView) {
             super(itemView);
+
+            //if the item on the empty list is displayed
             if (itemView.getTag() != null && itemView.getTag().toString().equals("empty"))
                 return;
 
