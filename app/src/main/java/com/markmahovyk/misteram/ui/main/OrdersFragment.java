@@ -19,7 +19,6 @@ import com.markmahovyk.misteram.data.SharePreference;
 import com.markmahovyk.misteram.data.newtwork.App;
 import com.markmahovyk.misteram.model.ActiveTasks;
 import com.markmahovyk.misteram.ui.main.adapter.ActiveTaskAdapter;
-import com.markmahovyk.misteram.ui.main.adapter.OrdersAdapter;
 
 import java.util.ArrayList;
 
@@ -131,7 +130,9 @@ public class OrdersFragment extends Fragment {
             return;
         activeTaskRecyclerView.setVisibility(View.VISIBLE);
 
-        if (activeTaskAdapter.tasks.size() != tasks.size()) {
+        if (activeTaskAdapter.tasks.size() != tasks.size() ||
+                activeTaskAdapter.tasks.size() == 0 ||
+                positionItemNotify.size() == 0 ) {
 
             activeTaskAdapter.tasks = tasks;
 
