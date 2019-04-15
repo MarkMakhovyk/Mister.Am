@@ -2,6 +2,8 @@ package com.markmahovyk.misteram.data.newtwork;
 
 import android.app.Application;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -19,7 +21,9 @@ public class App extends Application {
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor)
+                .readTimeout(10, TimeUnit.SECONDS)
+                .connectTimeout(10, TimeUnit.SECONDS).build();
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -30,11 +34,7 @@ public class App extends Application {
         networkService = retrofit.create(NetworkService.class);
     }
 
-
-
     public static NetworkService getApi() {
         return networkService;
     }
-
-
 }

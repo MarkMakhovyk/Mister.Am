@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,12 +41,22 @@ public class ActiveTaskAdapter extends RecyclerView.Adapter<ActiveTaskAdapter.Ac
     public ActiveTaskHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         context = viewGroup.getContext();
 
+        if (tasks.size() == 0) {
+            ActiveTaskHolder holder = new ActiveTaskHolder(LayoutInflater.from(context)
+                    .inflate(R.layout.item_empty_list, viewGroup, false));
+            holder.itemView.setTag("empty");
+            return holder;
+        }
+
         return new ActiveTaskHolder(LayoutInflater.from(context)
                 .inflate(R.layout.item_tasks, viewGroup, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull final ActiveTaskHolder activeTaskHolder, final int position) {
+        if (tasks.size() == 0) {
+            return;
+        }
 
         OrdersAdapter ordersAdapter = new OrdersAdapter(tasks.get(position));
 
@@ -102,6 +111,8 @@ public class ActiveTaskAdapter extends RecyclerView.Adapter<ActiveTaskAdapter.Ac
 
                     private void defaultStage() {
                         sendEndPointList.remove(sendEndPointList.indexOf(pos));
+
+                        activeTaskHolder.orderStatusButton.setBackgroundResource(R.color.colorDefaultSingInButton);
                         activeTaskHolder.loginProgressBar.setIndeterminate(false);
                         activeTaskHolder.loginProgressBar.setVisibility(View.GONE);
                         activeTaskHolder.arrowLoginImageView.setVisibility(View.VISIBLE);
@@ -112,6 +123,9 @@ public class ActiveTaskAdapter extends RecyclerView.Adapter<ActiveTaskAdapter.Ac
 
     @Override
     public int getItemCount() {
+        if (tasks.size() == 0) {
+            return 1;
+        }
         return tasks.size();
     }
 
@@ -124,6 +138,9 @@ public class ActiveTaskAdapter extends RecyclerView.Adapter<ActiveTaskAdapter.Ac
 
         public ActiveTaskHolder(@NonNull View itemView) {
             super(itemView);
+            if (itemView.getTag() != null && itemView.getTag().toString().equals("empty"))
+                return;
+
             orderStatusButton = itemView.findViewById(R.id.orderStatusButton);
             arrowLoginImageView = itemView.findViewById(R.id.arrowLoginImageView);
             ordersTaskRecyclerView = (RecyclerView) itemView.findViewById(R.id.ordersTaskRecyclerView);

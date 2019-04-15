@@ -18,4 +18,5 @@
     <string name="profile">Профиль</string>
     <string name="exit">Выйти</string>
     <string name="errorRegisterDevice">Ошибка регистрации устройства</string>
+    <string name="emptyListTask">Нет заказов</string>
 </resources>
