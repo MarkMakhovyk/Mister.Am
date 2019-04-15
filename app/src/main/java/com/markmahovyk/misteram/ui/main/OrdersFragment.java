@@ -34,7 +34,7 @@ public class OrdersFragment extends Fragment {
     private Boolean isVisibleFragment = false;
 
     private ActiveTaskAdapter activeTaskAdapter;
-    private int positionItemNotify = -1;
+    private ArrayList<Integer> positionItemNotify = new ArrayList();
 
     private RecyclerView activeTaskRecyclerView;
     private ProgressBar loginProgress;
@@ -131,18 +131,22 @@ public class OrdersFragment extends Fragment {
             return;
         activeTaskRecyclerView.setVisibility(View.VISIBLE);
 
-        activeTaskAdapter.tasks = tasks;
+        if (activeTaskAdapter.tasks.size() != tasks.size()) {
 
-        if (positionItemNotify != -1) {
-            activeTaskAdapter.notifyItemChanged(positionItemNotify);
-            positionItemNotify = -1;
-        }
-        else
+            activeTaskAdapter.tasks = tasks;
+
             activeTaskAdapter.notifyDataSetChanged();
+        } else {
+            for (int i : positionItemNotify) {
+                activeTaskAdapter.notifyItemChanged(i);
+                positionItemNotify.remove(i);
+            }
+        }
+
     }
 
     public void updateItem(int pos) {
-        positionItemNotify = pos;
+        positionItemNotify.add(pos);
         updateData();
     }
 }
