@@ -26,7 +26,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ActiveTaskAdapter extends RecyclerView.Adapter<ActiveTaskAdapter.ActiveTaskHolder> {
-    public ArrayList<ActiveTasks> tasks;
+    private ArrayList<ActiveTasks> tasks;
     private Context context;
     private ArrayList<Integer> sendEndPointList = new ArrayList<>();
 
@@ -35,6 +35,13 @@ public class ActiveTaskAdapter extends RecyclerView.Adapter<ActiveTaskAdapter.Ac
         this.tasks = tasks;
     }
 
+    public ArrayList<ActiveTasks> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(ArrayList<ActiveTasks> tasks) {
+        this.tasks = tasks;
+    }
 
     @NonNull
     @Override

@@ -131,21 +131,9 @@ public class OrdersFragment extends Fragment {
 
         activeTaskRecyclerView.setVisibility(View.VISIBLE);
 
-        if (activeTaskAdapter.tasks.size() != tasks.size() ||
-                activeTaskAdapter.tasks.size() == 0 ||
-                positionItemNotify.size() == 0 || tasks.size() == 0) {
+        activeTaskAdapter = new ActiveTaskAdapter(tasks);
+        activeTaskRecyclerView.setAdapter(activeTaskAdapter);
 
-            activeTaskAdapter.tasks = tasks;
-
-            activeTaskAdapter.notifyDataSetChanged();
-        } else {
-            activeTaskAdapter.tasks = tasks;
-
-            for (int i : positionItemNotify) {
-                activeTaskAdapter.notifyItemChanged(i);
-                positionItemNotify.remove(i);
-            }
-        }
 
     }
 
