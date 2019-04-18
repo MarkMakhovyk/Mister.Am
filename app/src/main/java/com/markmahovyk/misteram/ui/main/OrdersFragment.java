@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,10 +18,13 @@ import android.widget.ProgressBar;
 import com.markmahovyk.misteram.R;
 import com.markmahovyk.misteram.data.SharePreference;
 import com.markmahovyk.misteram.data.newtwork.App;
-import com.markmahovyk.misteram.model.ActiveTasks;
+import com.markmahovyk.misteram.model.task.ActiveTasks;
+import com.markmahovyk.misteram.model.task.Order;
+import com.markmahovyk.misteram.ui.detailsOrder.MainDetailsFragment;
 import com.markmahovyk.misteram.ui.main.adapter.ActiveTaskAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,7 +58,7 @@ public class OrdersFragment extends Fragment {
         setTitleFragment();
 
         View view = inflater.inflate(R.layout.fragment_orders, container, false);
-        loginProgress = view.findViewById(R.id.loginProgress);
+        loginProgress = view.findViewById(R.id.loadProgress);
 
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refreshLayout);
 
@@ -185,5 +189,22 @@ public class OrdersFragment extends Fragment {
     public void updateItem(int pos) {
         positionItemNotify.add(pos);
         loadData();
+    }
+
+    public void showDetailsOrder(List<Order> task) {
+        ArrayList<String> listId = new ArrayList<>();
+
+        for (Order order : task) {
+            if (listId.indexOf(order.getId().toString()) == -1) {
+                listId.add(order.getId().toString());
+            }
+        }
+
+
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragmentContainer,
+                MainDetailsFragment.newInstance(listId))
+//                OrderDetailsFragment.newInstance(String.valueOf(orderId)))
+                .addToBackStack("DetailsFragment").commit();
     }
 }

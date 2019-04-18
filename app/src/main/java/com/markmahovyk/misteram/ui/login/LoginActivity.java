@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnKeyListen
 
         arrowLoginImageView = findViewById(R.id.arrowLoginImageView);
 
-        loginProgressBar = (ProgressBar) findViewById(R.id.loginProgress);
+        loginProgressBar = (ProgressBar) findViewById(R.id.loadProgress);
 
         errorSingInTv = (TextView) findViewById(R.id.errorSingInTv);
 

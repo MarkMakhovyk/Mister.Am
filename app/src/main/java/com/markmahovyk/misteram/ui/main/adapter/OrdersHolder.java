@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.markmahovyk.misteram.R;
-import com.markmahovyk.misteram.model.Order;
+import com.markmahovyk.misteram.model.task.Order;
 
 import java.sql.Time;
 import java.text.SimpleDateFormat;
@@ -55,9 +55,9 @@ class OrdersHolder extends RecyclerView.ViewHolder {
         double price = order.getAmount();
         financeTv.setText(String.valueOf(price)+ "грн.");
         if (price > 0) {
-            financeTv.setTextColor(R.color.greenColorPrice);
+            financeTv.setTextColor(R.color.shamrockGreen);
         } else if (price < 0) {
-            financeTv.setTextColor(R.color.redColorPrice);
+            financeTv.setTextColor(R.color.jasper);
         }
     }
 

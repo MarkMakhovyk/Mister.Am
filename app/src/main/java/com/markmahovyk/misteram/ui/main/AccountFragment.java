@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,17 @@ import com.markmahovyk.misteram.ui.login.LoginActivity;
 import java.io.IOException;
 
 public class AccountFragment extends Fragment implements View.OnClickListener {
+
+    private static AccountFragment accountFragment = null;
+
+    private BottomNavigationView bottomNavigationView;
+
+    public static AccountFragment getInstance() {
+        if (accountFragment == null) {
+            accountFragment = new AccountFragment();
+        }
+        return accountFragment;
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,

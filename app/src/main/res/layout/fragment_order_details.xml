@@ -1,0 +1,675 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <ProgressBar
+            android:id="@+id/loadProgress"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="@color/colorPrimaryDark" />
+
+        <LinearLayout
+            android:id="@+id/layoutDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/orderFullNumberTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_light"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/onyx"
+                    android:textSize="15sp"
+                    tools:text=" Заказ # 144-5692 " />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#f8f8f8" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/currentOrderStatusTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_light"
+                    android:gravity="center_vertical"
+                    android:text=" Прибыл в заведение "
+                    android:textColor="@color/shamrockGreen"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:id="@+id/prevStatusImageView"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="16dp"
+                    app:srcCompat="@drawable/icon_prev_status" />
+
+                <ImageView
+                    android:id="@+id/nextStatusImageView"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="16dp"
+                    app:srcCompat="@drawable/icon_next_status" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#f8f8f8" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/receivingTitleTv"
+                        android:layout_width="match_parent"
+                        android:layout_height="21dp"
+                        android:fontFamily="@font/roboto_light"
+                        android:text=" Получение "
+                        android:textColor="@color/outerSpace"
+                        android:textSize="12sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/receivingIcon"
+                            android:layout_width="10dp"
+                            android:layout_height="12dp"
+                            android:layout_gravity="center"
+                            tools:src="@drawable/arrow_company" />
+
+
+                        <TextView
+                            android:id="@+id/receivingTimeTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:fontFamily="@font/roboto_light"
+                            android:textColor="@color/shamrockGreen"
+                            android:textSize="15sp"
+                            tools:text="19:02" />
+
+                        <TextView
+                            android:id="@+id/addressReceivingTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:fontFamily="@font/roboto_light"
+                            android:textColor="@color/onyx"
+                            android:textSize="15sp"
+                            tools:text=" - Велюров, пр. Мира, 19 " />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/tagsForReceivingLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="9dp"
+                        android:layout_marginBottom="12dp"
+                        android:orientation="horizontal">
+
+                        <include
+                            layout="@layout/item_tag_details"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            tools:visibility="visible"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#f8f8f8" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/DeliveringTitleTv"
+                        android:layout_width="match_parent"
+                        android:layout_height="21dp"
+                        android:fontFamily="@font/roboto_light"
+                        android:text=" Доставка "
+                        android:textColor="@color/outerSpace"
+                        android:textSize="12sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/deliveringIcon"
+                            android:layout_width="10dp"
+                            android:layout_height="12dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/arrow_user" />
+
+
+                        <TextView
+                            android:id="@+id/deliveryTimeTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:fontFamily="@font/roboto_light"
+                            android:textColor="@color/shamrockGreen"
+                            android:textSize="15sp"
+                            tools:text="19:02" />
+
+                        <TextView
+                            android:id="@+id/deliveryAddressTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:fontFamily="@font/roboto_light"
+                            android:textColor="@color/onyx"
+                            android:textSize="15sp"
+                            tools:text=" - ул. Мазепы 11, кв. 33, этаж 9 " />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/tagsForDeliveryLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="9dp"
+                        android:layout_marginBottom="12dp"
+                        android:orientation="horizontal">
+
+                        <include
+                            layout="@layout/item_tag_details"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            tools:visibility="visible" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#f8f8f8" />
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text=" Клиент "
+                    android:textColor="@color/outerSpace"
+                    app:layout_constraintBottom_toTopOf="@+id/nameClientTv"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/nameClientTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_light"
+                    android:textColor="@color/onyx"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text=" Василий" />
+
+                <TextView
+                    android:id="@+id/numberClientTv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="@font/roboto_light"
+                    android:textColor="@color/onyx"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/dialingPhoneUser"
+                    app:layout_constraintStart_toEndOf="@+id/nameClientTv"
+                    tools:text="+380976961038 " />
+
+                <ImageView
+                    android:id="@+id/dialingPhoneUser"
+                    android:layout_width="24dp"
+                    android:layout_height="25dp"
+                    android:layout_marginRight="16dp"
+                    android:src="@drawable/dialing_number_user_icon"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#f8f8f8" />
+
+            <LinearLayout
+                android:id="@+id/wishesLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_light"
+                    android:text=" Примечания клиента "
+                    android:textColor="@color/outerSpace"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/customerNotesTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/roboto_light"
+                    android:textColor="@color/onyx"
+                    android:textSize="15sp"
+                    tools:text=" Пица без лука. Курьеру позвонить за 10 мин. " />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@color/whiteSmoke"
+                    android:orientation="horizontal"
+                    android:paddingTop="0.5dp">
+
+                    <TextView
+                        android:layout_width="70dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="2"
+                        android:background="@android:color/white"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="16dp"
+                        android:text=" Финансы "
+                        android:textColor="@color/outerSpace"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:layout_width="13dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@android:color/white"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/onyx"
+                        android:textSize="12sp"/>
+
+                    <ImageView
+                        android:layout_width="13dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="0.5dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/white"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:src="@drawable/arrow_company"/>
+
+
+                    <ImageView
+                        android:layout_width="13dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="0.5dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/white"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:src="@drawable/arrow_user" />
+
+                    <ImageView
+                        android:layout_width="29dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="0.5dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/white"
+                        android:paddingTop="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingBottom="16dp"
+                        android:src="@drawable/payment_card"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/whiteSmoke"
+                    android:orientation="horizontal"
+                    android:paddingTop="0.5dp">
+
+                    <TextView
+                        android:layout_width="70dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:background="@android:color/white"
+                        android:fontFamily="@font/roboto_light"
+                        android:paddingLeft="16dp"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:text=" Чек "
+                        android:textColor="@color/onyx"
+                        android:textSize="15sp"/>
+
+                    <TextView
+                        android:layout_width="13dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@android:color/white"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="center_vertical"
+                        android:text="305"
+                        android:textSize="12sp"
+                        tools:textColor="@color/onyx"/>
+
+                    <TextView
+                        android:id="@+id/companyPriceTv"
+                        android:layout_width="13dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="0.5dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/white"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="4dp"
+                        android:text="-305"
+                        android:textSize="12sp"
+                        tools:textColor="@color/shamrockGreen" />
+
+                    <TextView
+                        android:id="@+id/userPriceTv"
+                        android:layout_width="13dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="0.5dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/white"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="4dp"
+                        android:text="305"
+                        android:textSize="12sp"
+                        tools:textColor="@color/jasper" />
+
+                    <TextView
+                        android:id="@+id/onlinePriceTv"
+                        android:layout_width="29dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="0.5dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/white"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="4dp"
+                        android:text="0"
+                        android:textSize="12sp"
+                        tools:textColor="@color/onyx" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/whiteSmoke"
+                    android:orientation="horizontal"
+                    android:paddingTop="0.5dp">
+
+                    <TextView
+                        android:layout_width="70dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:background="@android:color/white"
+                        android:fontFamily="@font/roboto_light"
+                        android:paddingLeft="16dp"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:text=" Доставка "
+                        android:textColor="@color/onyx"
+                        android:textSize="15sp"/>
+
+                    <TextView
+                        android:layout_width="13dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@android:color/white"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="center_vertical"
+                        android:text="45"
+                        android:textColor="@color/onyx"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/companyDeliveryPriceTv"
+                        android:layout_width="13dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="0.5dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/white"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="4dp"
+                        android:textSize="12sp"
+                        tools:text="40"
+                        tools:textColor="@color/shamrockGreen" />
+
+                    <TextView
+                        android:id="@+id/userDeliveryPriceTv"
+                        android:layout_width="13dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="0.5dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/white"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="4dp"
+                        android:textSize="12sp"
+                        tools:text="5"
+                        tools:textColor="@color/shamrockGreen" />
+
+                    <TextView
+                        android:id="@+id/onlineDeliveryTv"
+                        android:layout_width="29dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="0.5dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/white"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="4dp"
+                        android:textSize="12sp"
+                        tools:text="0"
+                        tools:textColor="@color/onyx" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/whiteSmoke"
+                    android:orientation="horizontal"
+                    android:paddingTop="0.5dp"
+                    android:paddingBottom="0.5dp">
+
+                    <TextView
+                        android:layout_width="70dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:background="@android:color/white"
+                        android:fontFamily="@font/roboto_light"
+                        android:paddingLeft="16dp"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:text=" Всего "
+                        android:textColor="@color/onyx"
+                        android:textSize="15sp"/>
+                    <TextView
+                        android:layout_width="13dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@android:color/white"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="center_vertical"
+                        android:text="350"
+                        android:textColor="@color/onyx"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/companyFullPriceTv"
+                        android:layout_width="13dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="0.5dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/white"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="4dp"
+                        android:text="-265"
+                        android:textSize="12sp"
+                        tools:textColor="@color/jasper" />
+
+                    <TextView
+                        android:id="@+id/userFullPriceTv"
+                        android:layout_width="13dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="0.5dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/white"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="4dp"
+                        android:text="310"
+                        android:textSize="12sp"
+                        tools:textColor="@color/shamrockGreen" />
+
+                    <TextView
+                        android:id="@+id/onlineFullPriceTv"
+                        android:layout_width="29dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="0.5dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/white"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="4dp"
+                        android:text="0"
+                        android:textSize="12sp"
+                        tools:textColor="@color/onyx" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_light"
+                    android:text=" Заказ "
+                    android:textColor="@color/outerSpace"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/orderedDishesListTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/roboto_light"
+                    android:textColor="@color/onyx"
+                    android:textSize="15sp"
+                    tools:text=" Пица Американа / 2 / 162 грн.\nПицца Баварская / 2 / 174 грн. \nСалат Цезарь / 1 / 53 грн.\nСок Сандора (яблочный) / 1 / 34 грн.\nУпаковка / 3 / 12 грн. " />
+
+                <TextView
+                    android:id="@+id/totalAmountTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/roboto_light"
+                    android:text=" Итого 305 грн. "
+                    android:textColor="#00a053"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

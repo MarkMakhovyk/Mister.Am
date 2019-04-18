@@ -1,11 +1,10 @@
 
-package com.markmahovyk.misteram.model;
+package com.markmahovyk.misteram.model.task;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import okhttp3.Route;
+import java.util.List;
 
 public class ActiveTasks {
 

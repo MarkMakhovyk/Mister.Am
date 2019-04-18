@@ -76,7 +76,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ProgressBar
-                    android:id="@+id/loginProgress"
+                    android:id="@+id/loadProgress"
                     android:layout_width="15dp"
                     android:layout_height="23dp"
                     android:layout_gravity="center"

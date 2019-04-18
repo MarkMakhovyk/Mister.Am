@@ -1,5 +1,5 @@
 
-package com.markmahovyk.misteram.model;
+package com.markmahovyk.misteram.model.task;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

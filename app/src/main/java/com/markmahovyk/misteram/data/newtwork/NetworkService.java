@@ -1,9 +1,10 @@
 package com.markmahovyk.misteram.data.newtwork;
 
-import com.markmahovyk.misteram.model.ActiveTasks;
 import com.markmahovyk.misteram.model.ResponseEndPoint;
 import com.markmahovyk.misteram.model.ResponseRegister;
 import com.markmahovyk.misteram.model.ResponseSingIn;
+import com.markmahovyk.misteram.model.details.Details;
+import com.markmahovyk.misteram.model.task.ActiveTasks;
 
 import java.util.ArrayList;
 
@@ -45,5 +46,11 @@ public interface NetworkService {
             @Header("App-Auth-Token") String authAppToken,
             @Path("orderId") String orderId,
             @Query("status") String type);
+
+    @GET("/business-app/api/couriers/order/{orderId}/info")
+    Call<Details> getDetails(
+            @Header("App-Token") String appToken,
+            @Header("App-Auth-Token") String authAppToken,
+            @Path("orderId") String orderId);
 }
 

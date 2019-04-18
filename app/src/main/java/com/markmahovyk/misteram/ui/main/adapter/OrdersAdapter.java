@@ -4,13 +4,15 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.markmahovyk.misteram.R;
-import com.markmahovyk.misteram.model.ActiveTasks;
-import com.markmahovyk.misteram.model.Order;
+import com.markmahovyk.misteram.model.task.ActiveTasks;
+import com.markmahovyk.misteram.model.task.Order;
+import com.markmahovyk.misteram.ui.main.OrdersFragment;
 
 public class OrdersAdapter extends RecyclerView.Adapter<OrdersHolder> {
     private ActiveTasks task;
@@ -37,6 +39,8 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersHolder> {
             ordersHolder.itemView.setBackgroundResource(R.color.activeTask);
 
         setTag(task.getOrders().get(i),ordersHolder.tagForOrderLayout);
+
+        setDetailsListener(ordersHolder, i);
     }
 
     private void setTag(Order order, LinearLayout tagForOrderLayout) {
@@ -60,6 +64,16 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersHolder> {
                 tagForOrderLayout.addView(icon);
             }
         }
+    }
+
+    private void setDetailsListener(OrdersHolder ordersHolder, int i) {
+        final int orderId = task.getOrders().get(i).getId();
+        ordersHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OrdersFragment.getInstance().showDetailsOrder(task.getOrders());
+            }
+        });
     }
 
     @Override

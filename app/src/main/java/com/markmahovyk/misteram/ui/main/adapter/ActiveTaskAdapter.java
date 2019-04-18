@@ -14,9 +14,9 @@ import android.widget.TextView;
 import com.markmahovyk.misteram.R;
 import com.markmahovyk.misteram.data.SharePreference;
 import com.markmahovyk.misteram.data.newtwork.App;
-import com.markmahovyk.misteram.model.Action;
-import com.markmahovyk.misteram.model.ActiveTasks;
 import com.markmahovyk.misteram.model.ResponseEndPoint;
+import com.markmahovyk.misteram.model.task.Action;
+import com.markmahovyk.misteram.model.task.ActiveTasks;
 import com.markmahovyk.misteram.ui.main.OrdersFragment;
 
 import java.util.ArrayList;
@@ -176,7 +176,7 @@ public class ActiveTaskAdapter extends RecyclerView.Adapter<ActiveTaskAdapter.Ac
             arrowLoginImageView = itemView.findViewById(R.id.arrowLoginImageView);
             ordersTaskRecyclerView = (RecyclerView) itemView.findViewById(R.id.ordersTaskRecyclerView);
             orderStatusTextView = (TextView) itemView.findViewById(R.id.orderStatusTextView);
-            loginProgressBar = (ProgressBar) itemView.findViewById(R.id.loginProgress);
+            loginProgressBar = (ProgressBar) itemView.findViewById(R.id.loadProgress);
         }
     }
 }
